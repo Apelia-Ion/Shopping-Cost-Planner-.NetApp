@@ -1,12 +1,14 @@
-﻿using System;
+﻿using ShoppingCostPlanner.Domain.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ShoppingCostPlanner.Application.Interfaces.Repository
 {
-    public interface IShoppingListRepository
+    public interface IShoppingListRepository 
     {
+        Task<IEnumerable<ShoppingList>> GetShoppingLists(int userId);
+        Task<ShoppingList> GetShoppingListById(int shoppingListId);
+        Task<Item> GetItemById(int itemId);
+        Task SaveChangesAsync();
     }
 }

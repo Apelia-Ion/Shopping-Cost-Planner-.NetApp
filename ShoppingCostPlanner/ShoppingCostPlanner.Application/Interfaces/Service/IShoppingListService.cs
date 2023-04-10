@@ -1,12 +1,12 @@
-﻿using System;
+﻿using ShoppingCostPlanner.Domain.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ShoppingCostPlanner.Application.Interfaces.Service
 {
     public interface IShoppingListService
     {
+        Task<IEnumerable<ShoppingList>> GetShoppingListsByUserId(int userId);
+        Task<ShoppingList> AddShoppingListItem(int shoppingListId, int itemId);
     }
 }

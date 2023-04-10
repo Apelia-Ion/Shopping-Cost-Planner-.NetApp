@@ -8,8 +8,13 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ShoppingCostPlanner.Application.Interfaces.Repository;
 using ShoppingCostPlanner.Infrastructure.Repositories;
+using Microsoft.Extensions.Configuration;
+using ShoppingCostPlanner.Application.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//add logging
+builder.Host.ConfigureLogging(logger => logger.AddConsole());
 
 // Add services to the container.
 
@@ -64,10 +69,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Configure authorization
 builder.Services.AddAuthorization();
 
+
+
 // Add services
-builder.Services.AddTransient<ITokenService, TokenService>();
-builder.Services.AddTransient<IUserService, UserService>();
+//builder.Services.AddTransient<ITokenService, TokenService>();
+//builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddServices();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+
+
 
 var config = new ConfigurationBuilder()
 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -75,6 +85,9 @@ var config = new ConfigurationBuilder()
 .AddUserSecrets<Program>(optional: true)
 .AddEnvironmentVariables()
 .Build();
+
+
+builder.Services.AddOptions();
 
 builder.Services.AddDbContext<ShoppingCostPlannerDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnString")));
 

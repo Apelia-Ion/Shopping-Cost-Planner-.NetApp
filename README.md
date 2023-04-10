@@ -1,3 +1,4 @@
+
 # :euro: :shopping_cart: Shopping & Cost Planner App :shopping_cart: :euro:
 This is a web-based application developed using the .NET framework and Microsoft SQL Server. The app provides users with the ability to manage their shopping lists, track prices from different stores, set budgets for different categories of expenses, and analyze their spending patterns over time.
 
@@ -11,3 +12,4 @@ The app is developed using the .NET framework and Microsoft SQL Server for data 
 
 The app follows best practices for configuration, such as dependency injection, logging, and base classes. LINQ is used to simplify data retrieval and processing. Blob storage is used to upload and read images and other media.
 </details>
+

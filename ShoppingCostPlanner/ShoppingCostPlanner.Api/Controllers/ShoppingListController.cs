@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCostPlanner.Application.Interfaces.Service;
 
@@ -15,6 +16,7 @@ namespace ShoppingCostPlanner.Api.Controllers
             _shoppingListService = shoppingListService;
         }
 
+        [AllowAnonymous]
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetShoppingListByUserId(int userId)
         {
@@ -27,6 +29,7 @@ namespace ShoppingCostPlanner.Api.Controllers
             return Ok(shoppingLists);
         }
 
+        [Authorize]
         [HttpPost("{shoppingListId}/item/{itemId}")]
         public async Task<IActionResult> AddItemToShoppingList(int shoppingListId, int itemId)
         {

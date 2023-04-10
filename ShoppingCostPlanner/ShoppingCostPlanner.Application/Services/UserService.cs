@@ -103,7 +103,7 @@ namespace ShoppingCostPlanner.Application.Services
             {
                 var newUser = new User
                 {
-                     Id =user.Id,
+                
                      Name = user.Name,     
                      Username = user.Username,
                      Password = user.Password,

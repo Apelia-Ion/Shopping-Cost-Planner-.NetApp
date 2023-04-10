@@ -36,7 +36,7 @@ namespace ShoppingCostPlanner.Api.Controllers
             return Ok(users);
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost("Send-email")]
         public async Task<IActionResult> SendEmail(EmailSendModel email)
         {
@@ -90,7 +90,7 @@ namespace ShoppingCostPlanner.Api.Controllers
             try
             {
                 await _userService.DeleteUser(id);
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {

@@ -10,21 +10,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Mail;
+using Microsoft.Extensions.Logging;
 
 namespace ShoppingCostPlanner.Application.Services
 {
     public class EmailService : IEmailService
     {
         private readonly SendGridOptions _options;
+        private readonly ILogger<EmailService> _logger;
 
-        public EmailService(IOptions<SendGridOptions> options)
+        public EmailService(IOptions<SendGridOptions> options, ILogger<EmailService> logger)
         {
             _options = options.Value;
+            _logger = logger;
         }
 
         public async Task SendAsync(EmailSendModel email)
         {
             var apiKey = _options.ApiKey;
+            _logger.LogInformation("ApiKeyEmptyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+
             var sender = _options.SenderEmail;
 
             var client = new SendGridClient(apiKey);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using ShoppingCostPlanner.Application.Interfaces.Repository;
 using ShoppingCostPlanner.Domain.Entities;
 using ShoppingCostPlanner.Infrastructure.Context;
@@ -23,5 +24,31 @@ namespace ShoppingCostPlanner.Infrastructure.Repositories
         {
             return await _dbContext.Users.ToListAsync();
         }
+
+        public async Task<User> GetUserById(int id)
+        {
+            return await Task.FromResult(_dbContext.Users.FirstOrDefault(u => u.Id == id));
+        }
+
+        public void CreateUser(User user)
+        {
+            _dbContext.Users.Add(user);
+            _dbContext.SaveChanges();
+
+        }
+
+        public async Task  DeleteUser(int id)
+        {
+            var user = await _dbContext.Users.FindAsync(id);
+
+            if (user != null)
+            {
+                _dbContext.Users.Remove(user);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+
+
+
     }
 }

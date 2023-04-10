@@ -13,6 +13,9 @@ namespace ShoppingCostPlanner.Application.Interfaces.Service
         Task<IEnumerable<User>> GetAllUsers();
         UserLoginResponse LoginUser(UserLoginRequest request);
         UserLoginResponse Reauthorize(TokenRefreshRequest tokenRefreshRequest);
+        Task<User> GetUserById(int id);
+        void CreateUser(UserCreateModel user);
+        Task DeleteUser(int id);
 
     }
 }

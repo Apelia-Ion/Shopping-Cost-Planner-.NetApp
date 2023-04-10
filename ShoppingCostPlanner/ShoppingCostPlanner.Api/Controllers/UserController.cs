@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCostPlanner.Application.Interfaces.Service;
 using ShoppingCostPlanner.Domain.Entities;
@@ -22,7 +23,12 @@ namespace ShoppingCostPlanner.Api.Controllers
 
         }
 
-        [HttpGet]
+
+
+
+
+        [AllowAnonymous]
+        [HttpGet("Get all users")]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             var users = await _userService.GetAllUsers();
@@ -30,12 +36,67 @@ namespace ShoppingCostPlanner.Api.Controllers
             return Ok(users);
         }
 
-        [HttpPost("send-email")]
+        [Authorize]
+        [HttpPost("Send-email")]
         public async Task<IActionResult> SendEmail(EmailSendModel email)
         {
             await _emailService.SendAsync(email);
 
             return Ok();
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet("Get user by/{id}")]
+        public async Task<ActionResult<User>> GetUserById(int id)
+        {
+            try
+            {
+                var user = await _userService.GetUserById(id);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while getting user by Id {id}", id);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("CreateUser")]
+        public async Task<IActionResult> CreateUser([FromBody] UserCreateModel user)
+        {
+            try
+            {
+                _userService.CreateUser(user);
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while creating user");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("Delete user by/{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            try
+            {
+                await _userService.DeleteUser(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while deleting user with Id {id}", id);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
 

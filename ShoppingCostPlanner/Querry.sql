@@ -12,3 +12,5 @@ select * from Items;
 select * from ItemShoppingList;
 
 rollback;
+SET IDENTITY_INSERT Users OFF;
+SET IDENTITY_INSERT Users ON;

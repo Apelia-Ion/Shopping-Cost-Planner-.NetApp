@@ -24,6 +24,7 @@ namespace ShoppingCostPlanner.Application.Interfaces.Service
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IShoppingListService, ShoppingListService>();
             //can't add refference to using ShoppingCostPlanner.Infrastructure.Repositories; -> circular refference 
             //So i will let the next line in program.cs
             //services.AddTransient<IUserRepository, UserRepository>();

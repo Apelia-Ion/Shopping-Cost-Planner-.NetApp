@@ -47,6 +47,11 @@ namespace ShoppingCostPlanner.Application.Services
             return shoppingList;
         }
 
+        public async Task<IEnumerable<ShoppingList>> GetShoppingListsById(int Id)
+        {
+            return await _shoppingListRepository.GetShoppingListsById(Id);
+        }
+
 
     }
 

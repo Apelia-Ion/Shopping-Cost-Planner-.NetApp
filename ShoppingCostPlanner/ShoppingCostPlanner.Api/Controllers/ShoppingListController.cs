@@ -17,7 +17,7 @@ namespace ShoppingCostPlanner.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{userId}")]
+        [HttpGet("Get shopping list from user with id/{userId}")]
         public async Task<IActionResult> GetShoppingListByUserId(int userId)
         {
             var shoppingLists = await _shoppingListService.GetShoppingListsByUserId(userId);
@@ -40,6 +40,19 @@ namespace ShoppingCostPlanner.Api.Controllers
             }
 
             return Ok(shoppingList);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("Get the shopping list with the id {Id}")]
+        public async Task<IActionResult> GetShoppingListById(int Id)
+        {
+            var shoppingLists = await _shoppingListService.GetShoppingListsByUserId(Id);
+            if (shoppingLists == null || !shoppingLists.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(shoppingLists);
         }
 
     }

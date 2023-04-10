@@ -10,5 +10,6 @@ namespace ShoppingCostPlanner.Application.Interfaces.Repository
         Task<ShoppingList> GetShoppingListById(int shoppingListId);
         Task<Item> GetItemById(int itemId);
         Task SaveChangesAsync();
+        Task<IEnumerable<ShoppingList>> GetShoppingListsById(int Id);
     }
 }

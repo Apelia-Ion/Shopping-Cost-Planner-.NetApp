@@ -39,5 +39,14 @@ namespace ShoppingCostPlanner.Infrastructure.Repositories
         {
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<ShoppingList>> GetShoppingListsById(int Id)
+        {
+            return await _dbContext.ShoppingLists
+                .Where(s => s.Id == Id)
+                .ToListAsync();
+        }
+
+
     }
 }

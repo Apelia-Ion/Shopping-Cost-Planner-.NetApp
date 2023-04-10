@@ -36,7 +36,7 @@ namespace ShoppingCostPlanner.Api.Controllers
             return Ok(users);
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost("Send-email")]
         public async Task<IActionResult> SendEmail(EmailSendModel email)
         {

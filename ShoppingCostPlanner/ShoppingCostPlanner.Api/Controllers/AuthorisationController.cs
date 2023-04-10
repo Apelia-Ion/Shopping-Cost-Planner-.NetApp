@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCostPlanner.Application.Interfaces.Service;
 using ShoppingCostPlanner.Application.Services;
 using ShoppingCostPlanner.Domain.Models;
+using System.Data;
 
 namespace ShoppingCostPlanner.Api.Controllers
 {
@@ -28,6 +30,8 @@ namespace ShoppingCostPlanner.Api.Controllers
 
             return Ok(loginResult);
         }
+
+
 
         [HttpPost("refresh")]
         public IActionResult RefreshToken(TokenRefreshRequest request)

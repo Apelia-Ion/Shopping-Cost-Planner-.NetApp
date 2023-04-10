@@ -76,6 +76,8 @@ builder.Services.AddAuthorization();
 //builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddServices();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IShoppingListRepository, ShoppingListRepository>();
+
 
 
 

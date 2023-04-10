@@ -1,4 +1,5 @@
-﻿using ShoppingCostPlanner.Application.Interfaces.Repository;
+﻿using Microsoft.Extensions.Logging;
+using ShoppingCostPlanner.Application.Interfaces.Repository;
 using ShoppingCostPlanner.Application.Interfaces.Service;
 using ShoppingCostPlanner.Domain.Entities;
 using ShoppingCostPlanner.Domain.Models;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ShoppingCostPlanner.Application.Services
@@ -15,13 +17,16 @@ namespace ShoppingCostPlanner.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly ITokenService _tokenService;
-        private List<User> _users;
+        private readonly List<User> _users;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(IUserRepository userRepository, ITokenService tokenService)
+        public UserService(IUserRepository userRepository, ITokenService tokenService, ILogger<UserService> logger)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;
             _users = _userRepository.GetAllUsers().Result.ToList();
+            _logger = logger;
+
         }
 
         public async Task<IEnumerable<User>> GetAllUsers()
@@ -85,6 +90,52 @@ namespace ShoppingCostPlanner.Application.Services
 
             return new UserLoginResponse(accessToken, refreshToken);
         }
+
+        public async Task<User> GetUserById(int id)
+        {
+            _logger.LogInformation("Getting user by ID: {Id}", id);
+            return await _userRepository.GetUserById(id);
+        }
+
+        public void CreateUser(UserCreateModel user)
+        {
+            try
+            {
+                var newUser = new User
+                {
+                
+                     Name = user.Name,     
+                     Username = user.Username,
+                     Password = user.Password,
+                     Email = user.Email,
+                     CreatedAt = DateTime.Now,
+                    ShoppingLists =null,
+                    RefreshToken = "123456"
+                };
+                    
+                _userRepository.CreateUser(newUser);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while creating user");
+                throw;
+            }
+        }
+
+        public async Task DeleteUser(int id)
+        {
+            try
+            {
+                await _userRepository.DeleteUser(id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while deleting user with Id {id}", id);
+                throw;
+            }
+        }
+
+
 
 
     }

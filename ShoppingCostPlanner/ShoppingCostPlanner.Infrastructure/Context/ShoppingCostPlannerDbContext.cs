@@ -46,7 +46,7 @@ namespace ShoppingCostPlanner.Infrastructure.Context
 
             modelBuilder.Entity<ItemShoppingList>()
                 .HasKey(isl => new { isl.ItemId, isl.ShoppingListId });
-
+            /*
             modelBuilder.Entity<ItemShoppingList>()
                 .HasOne(isl => isl.Item)
                 .WithMany(i => i.ItemShoppingLists)
@@ -56,7 +56,7 @@ namespace ShoppingCostPlanner.Infrastructure.Context
                 .HasOne(isl => isl.ShoppingList)
                 .WithMany(sl => sl.ItemShoppingLists)
                 .HasForeignKey(isl => isl.ShoppingListId);
-
+            */
             modelBuilder.Entity<Category>()
                 .HasMany(c => c.Items)
                 .WithOne(i => i.Category);

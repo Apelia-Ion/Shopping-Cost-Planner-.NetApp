@@ -24,7 +24,7 @@ namespace ShoppingCostPlanner.Api.Controllers
             _logger = logger;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet("user/{userId}")]
         [Description("Get shopping list from a user (with the given id).")]
         public async Task<IActionResult> GetShoppingListByUserId(int userId)
@@ -38,7 +38,7 @@ namespace ShoppingCostPlanner.Api.Controllers
             return Ok(shoppingLists);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost("{shoppingListId}/item/{itemId}")]
         [Description("Adds to a list (list id) an item (item id).")]
         public async Task<IActionResult> AddItemToShoppingList(int shoppingListId, int itemId)
@@ -54,7 +54,7 @@ namespace ShoppingCostPlanner.Api.Controllers
             return Ok(shoppingList);
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("{Id}")]
         [Description("Get the shopping list (id).")]
         public async Task<IActionResult> GetShoppingListById(int Id)
@@ -68,6 +68,7 @@ namespace ShoppingCostPlanner.Api.Controllers
             return Ok(shoppingLists);
         }
 
+        [Authorize]
         [HttpPost("create")]
         [Description("Adds a new shopping list to a user.")]
         public async Task<IActionResult> AddShoppingListToUser([FromBody] ShoppingListCreateModel shoppingList)

@@ -9,7 +9,7 @@ using System.Text;
 using ShoppingCostPlanner.Application.Interfaces.Repository;
 using ShoppingCostPlanner.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
-using ShoppingCostPlanner.Application.Options;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +18,11 @@ builder.Host.ConfigureLogging(logger => logger.AddConsole());
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -89,7 +93,7 @@ var config = new ConfigurationBuilder()
 .Build();
 
 
-builder.Services.AddOptions();
+builder.Services.AddApplicationOptions(config);
 
 builder.Services.AddDbContext<ShoppingCostPlannerDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnString")));
 

@@ -13,5 +13,6 @@ namespace ShoppingCostPlanner.Application.Interfaces.Repository
         Task<User> GetUserById(int id);
         void CreateUser(User user);
         Task DeleteUser(int id);
+        User GetUserById2(int id);
     }
 }

@@ -33,6 +33,7 @@ namespace ShoppingCostPlanner.Infrastructure.Context
              .WithOne(sl => sl.User)
              .HasForeignKey(sl => sl.UserId);
 
+
             //many-to-many Item<->ShoppingList
             modelBuilder.Entity<ShoppingList>()
                 .HasMany(sl => sl.ItemShoppingLists)

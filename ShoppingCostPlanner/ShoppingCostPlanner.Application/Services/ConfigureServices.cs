@@ -14,7 +14,7 @@ namespace ShoppingCostPlanner.Application.Interfaces.Service
 {
     public static class ConfigureServices
     {
-        public static void AddOptions(this IServiceCollection services, IConfiguration configuration)
+        public static void AddApplicationOptions(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<SendGridOptions>(options => configuration.GetSection("SendGrid").Bind(options));
 

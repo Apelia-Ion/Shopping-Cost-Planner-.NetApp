@@ -12,10 +12,12 @@ namespace ShoppingCostPlanner.Infrastructure.Repositories
     public class ShoppingListRepository : IShoppingListRepository
     {
         private readonly ShoppingCostPlannerDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
 
-        public ShoppingListRepository(ShoppingCostPlannerDbContext dbContext)
+        public ShoppingListRepository(ShoppingCostPlannerDbContext dbContext, IUserRepository userRepository)
         {
             _dbContext = dbContext;
+            _userRepository = userRepository;
         }
 
         public async Task<IEnumerable<ShoppingList>> GetShoppingLists(int userId)
@@ -53,6 +55,15 @@ namespace ShoppingCostPlanner.Infrastructure.Repositories
             return await _dbContext.ShoppingLists
                 .Where(s => s.Id == Id)
                 .ToListAsync();
+        }
+
+        public void AddShoppingListToUser(ShoppingList shoppingList)
+        {
+            _dbContext.ShoppingLists.Add(shoppingList);
+            var user = _userRepository.GetUserById2(shoppingList.UserId);
+            user.ShoppingLists.Add(shoppingList);
+            _dbContext.SaveChanges();
+
         }
 
 

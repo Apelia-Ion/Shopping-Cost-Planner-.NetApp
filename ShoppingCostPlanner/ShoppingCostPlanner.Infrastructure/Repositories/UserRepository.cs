@@ -48,6 +48,11 @@ namespace ShoppingCostPlanner.Infrastructure.Repositories
             }
         }
 
+        public User GetUserById2(int id)
+        {
+            return _dbContext.Users.FirstOrDefault(u => u.Id == id);
+        }
+
 
 
     }

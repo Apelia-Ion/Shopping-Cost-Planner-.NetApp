@@ -13,6 +13,7 @@ namespace ShoppingCostPlanner.Domain.Entities
         public ShoppingList()
         {
             ItemShoppingLists = new List<ItemShoppingList>();
+            Total = 0;
         }
 
         //public int Id { get; set; }

@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCostPlanner.Application.Interfaces.Service;
+using ShoppingCostPlanner.Application.Services;
+using ShoppingCostPlanner.Domain.Entities;
+using ShoppingCostPlanner.Domain.Models;
 using System.ComponentModel;
 
 namespace ShoppingCostPlanner.Api.Controllers
@@ -11,13 +14,17 @@ namespace ShoppingCostPlanner.Api.Controllers
     public class ShoppingListController : ControllerBase
     {
         private readonly IShoppingListService _shoppingListService;
+        private readonly IUserService _userService;
+        private readonly ILogger<ShoppingListController> _logger;
 
-        public ShoppingListController(IShoppingListService shoppingListService)
+        public ShoppingListController(IShoppingListService shoppingListService, IUserService userService, ILogger<ShoppingListController> logger)
         {
             _shoppingListService = shoppingListService;
+            _userService = userService;
+            _logger = logger;
         }
 
-        [AllowAnonymous]
+        //[Authorize]
         [HttpGet("user/{userId}")]
         [Description("Get shopping list from a user (with the given id).")]
         public async Task<IActionResult> GetShoppingListByUserId(int userId)
@@ -60,6 +67,29 @@ namespace ShoppingCostPlanner.Api.Controllers
 
             return Ok(shoppingLists);
         }
+
+        [HttpPost("create")]
+        [Description("Adds a new shopping list to a user.")]
+        public async Task<IActionResult> AddShoppingListToUser([FromBody] ShoppingListCreateModel shoppingList)
+        {
+            try
+            {
+                _shoppingListService.AddShoppingListToUser(shoppingList);
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while creating new shopping list!");
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+
+        }
+
+
+
+
 
     }
 }

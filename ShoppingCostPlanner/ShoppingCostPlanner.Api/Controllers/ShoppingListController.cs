@@ -18,8 +18,8 @@ namespace ShoppingCostPlanner.Api.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("user/{userId}")]
         [Description("Get shopping list from a user (with the given id).")]
-        [HttpGet("/{userId}")]
         public async Task<IActionResult> GetShoppingListByUserId(int userId)
         {
             var shoppingLists = await _shoppingListService.GetShoppingListsByUserId(userId);
@@ -31,9 +31,9 @@ namespace ShoppingCostPlanner.Api.Controllers
             return Ok(shoppingLists);
         }
 
-        [Authorize]
-        [Description("Adds to a list (list id) an item (item id).")]
+        //[Authorize]
         [HttpPost("{shoppingListId}/item/{itemId}")]
+        [Description("Adds to a list (list id) an item (item id).")]
         public async Task<IActionResult> AddItemToShoppingList(int shoppingListId, int itemId)
         {
             var shoppingList = await _shoppingListService.AddShoppingListItem(shoppingListId, itemId);
@@ -41,13 +41,15 @@ namespace ShoppingCostPlanner.Api.Controllers
             {
                 return NotFound();
             }
+            shoppingList = _shoppingListService.UpdateTotal(shoppingList);
+
 
             return Ok(shoppingList);
         }
 
         [AllowAnonymous]
-        [Description("Get the shopping list (id).")]
         [HttpGet("{Id}")]
+        [Description("Get the shopping list (id).")]
         public async Task<IActionResult> GetShoppingListById(int Id)
         {
             var shoppingLists = await _shoppingListService.GetShoppingListsByUserId(Id);

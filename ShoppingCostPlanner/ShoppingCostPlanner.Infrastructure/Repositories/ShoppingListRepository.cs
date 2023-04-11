@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using ShoppingCostPlanner.Application.Interfaces.Repository;
 using ShoppingCostPlanner.Domain.Entities;
 using ShoppingCostPlanner.Infrastructure.Context;
@@ -33,6 +34,13 @@ namespace ShoppingCostPlanner.Infrastructure.Repositories
         public async Task<Item> GetItemById(int itemId)
         {
             return await _dbContext.Items.FirstOrDefaultAsync(i => i.Id == itemId);
+        }
+
+        public void UpdateTotal(ShoppingList shoppingList)
+        {
+            shoppingList.UpdateTotal();
+            SaveChangesAsync();
+
         }
 
         public async Task SaveChangesAsync()

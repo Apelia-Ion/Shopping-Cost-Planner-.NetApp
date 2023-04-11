@@ -14,3 +14,6 @@ select * from ItemShoppingList;
 rollback;
 SET IDENTITY_INSERT Users OFF;
 SET IDENTITY_INSERT Users ON;
+
+DELETE FROM ItemShoppingList
+WHERE ItemId =3;

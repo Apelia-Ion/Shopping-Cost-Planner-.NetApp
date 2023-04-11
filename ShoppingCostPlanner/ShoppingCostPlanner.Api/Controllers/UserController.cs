@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ShoppingCostPlanner.Application.Interfaces.Service;
 using ShoppingCostPlanner.Domain.Entities;
 using ShoppingCostPlanner.Domain.Models;
+using System.ComponentModel;
 
 namespace ShoppingCostPlanner.Api.Controllers
 {
@@ -28,7 +29,8 @@ namespace ShoppingCostPlanner.Api.Controllers
 
 
         [AllowAnonymous]
-        [HttpGet("Get all users")]
+        [Description("Get all the users in the database.")]
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             var users = await _userService.GetAllUsers();
@@ -37,7 +39,8 @@ namespace ShoppingCostPlanner.Api.Controllers
         }
 
         [Authorize]
-        [HttpPost("Send-email")]
+        [Description("Service to send an email to an user.")]
+        [HttpPost("send-email")]
         public async Task<IActionResult> SendEmail(EmailSendModel email)
         {
             await _emailService.SendAsync(email);
@@ -47,7 +50,8 @@ namespace ShoppingCostPlanner.Api.Controllers
 
 
         [AllowAnonymous]
-        [HttpGet("Get user by/{id}")]
+        [Description("Get a user by the given id.")]
+        [HttpGet("/{id}")]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
             try
@@ -67,7 +71,8 @@ namespace ShoppingCostPlanner.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("CreateUser")]
+        [Description("Create a new user.")]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateUser([FromBody] UserCreateModel user)
         {
             try
@@ -84,7 +89,8 @@ namespace ShoppingCostPlanner.Api.Controllers
         }
 
         [Authorize]
-        [HttpDelete("Delete user by/{id}")]
+        [Description("Delete a user with the given id.")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             try

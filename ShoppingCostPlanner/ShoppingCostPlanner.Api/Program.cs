@@ -9,7 +9,7 @@ using System.Text;
 using ShoppingCostPlanner.Application.Interfaces.Repository;
 using ShoppingCostPlanner.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
-using ShoppingCostPlanner.Application.Options;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -89,7 +89,7 @@ var config = new ConfigurationBuilder()
 .Build();
 
 
-builder.Services.AddOptions();
+builder.Services.AddApplicationOptions(config);
 
 builder.Services.AddDbContext<ShoppingCostPlannerDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnString")));
 

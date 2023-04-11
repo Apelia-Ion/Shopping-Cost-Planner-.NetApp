@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingCostPlanner.Application.Interfaces.Service;
+using System.ComponentModel;
 
 namespace ShoppingCostPlanner.Api.Controllers
 {
@@ -17,7 +18,8 @@ namespace ShoppingCostPlanner.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("Get shopping list from user with id/{userId}")]
+        [Description("Get shopping list from a user (with the given id).")]
+        [HttpGet("/{userId}")]
         public async Task<IActionResult> GetShoppingListByUserId(int userId)
         {
             var shoppingLists = await _shoppingListService.GetShoppingListsByUserId(userId);
@@ -30,6 +32,7 @@ namespace ShoppingCostPlanner.Api.Controllers
         }
 
         [Authorize]
+        [Description("Adds to a list (list id) an item (item id).")]
         [HttpPost("{shoppingListId}/item/{itemId}")]
         public async Task<IActionResult> AddItemToShoppingList(int shoppingListId, int itemId)
         {
@@ -43,7 +46,8 @@ namespace ShoppingCostPlanner.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("Get the shopping list with the id {Id}")]
+        [Description("Get the shopping list (id).")]
+        [HttpGet("{Id}")]
         public async Task<IActionResult> GetShoppingListById(int Id)
         {
             var shoppingLists = await _shoppingListService.GetShoppingListsByUserId(Id);
